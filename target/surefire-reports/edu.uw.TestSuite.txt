@@ -1,0 +1,36 @@
+-------------------------------------------------------------------------------
+Test set: edu.uw.TestSuite
+-------------------------------------------------------------------------------
+Tests run: 18, Failures: 1, Errors: 7, Skipped: 0, Time elapsed: 1.347 sec <<< FAILURE! - in edu.uw.TestSuite
+testClose(test.AccountManagerTest)  Time elapsed: 0.042 sec  <<< ERROR!
+java.lang.UnsupportedOperationException: Not supported yet.
+	at test.AccountManagerTest.testClose(AccountManagerTest.java:237)
+
+testPersist(test.AccountManagerTest)  Time elapsed: 0.052 sec  <<< ERROR!
+java.lang.UnsupportedOperationException: Not supported yet.
+	at test.AccountManagerTest.testPersist(AccountManagerTest.java:132)
+
+testRegistration(test.AccountManagerTest)  Time elapsed: 0.041 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<110000> but was:<10000>
+	at test.AccountManagerTest.testRegistration(AccountManagerTest.java:252)
+
+testClose(test.DaoTest)  Time elapsed: 0.066 sec  <<< ERROR!
+java.lang.UnsupportedOperationException: Not supported yet.
+	at test.DaoTest.tearDown(DaoTest.java:292)
+
+testReset(test.DaoTest)  Time elapsed: 0.047 sec  <<< ERROR!
+java.lang.UnsupportedOperationException: Not supported yet.
+	at test.DaoTest.tearDown(DaoTest.java:292)
+
+testDelete(test.DaoTest)  Time elapsed: 0.044 sec  <<< ERROR!
+java.lang.UnsupportedOperationException: Not supported yet.
+	at test.DaoTest.tearDown(DaoTest.java:292)
+
+testReload(test.DaoTest)  Time elapsed: 0.11 sec  <<< ERROR!
+java.lang.UnsupportedOperationException: Not supported yet.
+	at test.DaoTest.tearDown(DaoTest.java:292)
+
+testSetGet(test.DaoTest)  Time elapsed: 0.138 sec  <<< ERROR!
+java.lang.UnsupportedOperationException: Not supported yet.
+	at test.DaoTest.tearDown(DaoTest.java:292)
+
