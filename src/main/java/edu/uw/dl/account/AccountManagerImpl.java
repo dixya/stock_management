@@ -9,10 +9,10 @@ import edu.uw.ext.framework.dao.AccountDao;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 
@@ -25,7 +25,13 @@ public class AccountManagerImpl implements AccountManager{
     private AccountDao dao;
     private static final String ALGORITHM="SHA1";
     private AccountFactory accountFactory;
-    static final Logger LOG=Logger.getLogger("AccountManagerImpl.class");
+    static final Logger LOG=LoggerFactory.getLogger("AccountManagerImpl.class");
+    /**
+     * No argument constructor.
+     */
+    public AccountManagerImpl(){
+        
+    }
 
     /**
      * Creates an account manager using AccountDao for persistence. 
@@ -36,8 +42,8 @@ public class AccountManagerImpl implements AccountManager{
         this.dao=dao;
         try(ClassPathXmlApplicationContext appContext=new ClassPathXmlApplicationContext("context.xml")){
             accountFactory=appContext.getBean(AccountFactory.class);
-        }catch(final BeansException ex){
-            throw new AccountException("Unable to create account manager"+ex);
+        }catch(final BeansException be){
+            LOG.info(String.format("Unable to create account manager %s", be));
         }
         
     }
@@ -48,7 +54,6 @@ public class AccountManagerImpl implements AccountManager{
      */
     @Override
     public void persist(Account account) throws AccountException {
-      
         dao.setAccount(account);
     }
 
@@ -90,15 +95,21 @@ public class AccountManagerImpl implements AccountManager{
      * @throws AccountException if any operation fails.
      */
 
+    /**
+     * Creates a new account.
+     * @param accountName the name of the account
+     * @param password the password
+     * @param balance balance of the account.
+     * @return new account.
+     * @throws AccountException if any operation fails.
+     */
     @Override
-    public Account createAccount(String accountName, String password, int balance) throws AccountException {
+    public synchronized Account createAccount(final String accountName,final String password, final int balance) throws AccountException {
         if(dao.getAccount(accountName)==null){
-                    byte[] passwordHash = null;
-            try {
-                passwordHash = hashPassword(password);
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                Logger.getLogger(AccountManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
+                   final byte[] passwordHash = hashPassword(password);
+           
+            
                     final Account acct=accountFactory.newAccount(accountName, passwordHash, balance);
                     acct.registerAccountManager(this);
                     persist(acct);
@@ -123,17 +134,12 @@ public class AccountManagerImpl implements AccountManager{
      * @throws AccountException if error occurs accessing accounts.
      */
     @Override
-    public boolean validateLogin(String accountName, String password) throws AccountException {
+    public synchronized boolean validateLogin(String accountName, String password) throws AccountException {
         boolean valid=false;
         final Account account=getAccount(accountName);
-        byte[] passwordHash = null;
 
         if(account!=null){
-            try {
-                passwordHash = hashPassword(password);
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                Logger.getLogger(AccountManagerImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            final byte[] passwordHash = hashPassword(password);
             valid=MessageDigest.isEqual(account.getPasswordHash(), passwordHash);
         }
         return valid;
@@ -162,7 +168,7 @@ public class AccountManagerImpl implements AccountManager{
      * @throws NoSuchAlgorithmException if algorithm is not found.
      * @throws UnsupportedEncodingException if the encoding is not supported.
      */
-    private byte[] hashPassword(final String password) throws AccountException, NoSuchAlgorithmException, UnsupportedEncodingException {
+    private byte[] hashPassword(final String password) throws AccountException {
         try{
             final MessageDigest md=MessageDigest.getInstance(ALGORITHM);
             md.update(password.getBytes(ENCODING));

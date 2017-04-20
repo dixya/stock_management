@@ -11,7 +11,7 @@ import edu.uw.ext.framework.account.CreditCard;
  *
  * @author dixya
  */
-public class CreditCardImpl implements CreditCard{
+public class CreditCardImpl implements CreditCard {
 
     private static final long serialVersionUID = 1L;
     String accountNumber;
@@ -19,7 +19,11 @@ public class CreditCardImpl implements CreditCard{
     String holder;
     String issuer;
     String type;
-    public CreditCardImpl(){
+
+    /**
+     * No argument constructor.
+     */
+    public CreditCardImpl() {
         super();
     }
 
@@ -50,27 +54,27 @@ public class CreditCardImpl implements CreditCard{
 
     @Override
     public void setAccountNumber(String accountNumber) {
-        this.accountNumber=accountNumber;
+        this.accountNumber = accountNumber;
     }
 
     @Override
     public void setExpirationDate(String expDate) {
-        this.expirationDate=expDate;
+        this.expirationDate = expDate;
     }
 
     @Override
     public void setHolder(String name) {
-        this.holder=name;
+        this.holder = name;
     }
 
     @Override
     public void setIssuer(String issuer) {
-        this.issuer=issuer;
+        this.issuer = issuer;
     }
 
     @Override
     public void setType(String type) {
-        this.type=type;
+        this.type = type;
     }
-    
+
 }

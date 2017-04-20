@@ -8,7 +8,6 @@ package edu.uw.dl.account;
 import edu.uw.ext.framework.account.Account;
 import edu.uw.ext.framework.account.AccountException;
 import edu.uw.ext.framework.account.AccountFactory;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,12 +27,13 @@ public class AccountFactoryImpl implements AccountFactory {
     /**
      * No argument constructor.
      */
-    AccountFactoryImpl() {
+    public AccountFactoryImpl() {
 
     }
 
     /**
      * Creates new Account
+     *
      * @param accountName the name of account
      * @param hashedPassword hashed password
      * @param initialBalance initial balance of the account.

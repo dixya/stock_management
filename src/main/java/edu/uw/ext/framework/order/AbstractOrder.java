@@ -115,13 +115,28 @@ public abstract class AbstractOrder implements Order {
      * will yield a positive value buy orders a negative value
      */
     @Override
-    public abstract int valueOfOrder(int pricePerShare);
+    public  int valueOfOrder(int pricePerShare){
+        if(pricePerShare>=0){
+            if(this.isBuyOrder()==false){
+        return (pricePerShare*numberOfShares);
+            }
+            else{
+                return -(pricePerShare*numberOfShares);
+            }
+        }
+        else{
+            LOG.warn("price per share should be greater than 0 ");
+            return pricePerShare;
+        }
+    }
         
     
 
     @Override
     public boolean isBuyOrder() {
+        
         return true;
+        
     }
 
     /**

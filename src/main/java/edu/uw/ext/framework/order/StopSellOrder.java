@@ -16,16 +16,6 @@ implements SellOrder{
         super(accountId, numberOfShares, stockTicker);
     }
 
-    @Override
-    public int valueOfOrder(int pricePerShare) {
-int total = 1;
-        if (pricePerShare > 0) {
-            total = pricePerShare * this.getNumberOfShares();
-        } else {
-            String msg = "Price per share should be greater than 0";
-            LOG.warn("msg");
-        }
-        return total;
-    }
+
     
 }

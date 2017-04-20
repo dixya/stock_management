@@ -1,4 +1,3 @@
-
 package edu.uw.dl.account;
 
 import edu.uw.ext.framework.account.Address;
@@ -7,15 +6,19 @@ import edu.uw.ext.framework.account.Address;
  *
  * @author dixya
  */
-public class AddressImpl implements Address{
+public class AddressImpl implements Address {
 
     private static final long serialVersionUID = 1L;
     String street;
     String city;
     String state;
     String zipCode;
-    AddressImpl(){
-        
+
+    /**
+     * No argument constructor.
+     */
+    AddressImpl() {
+
     }
 
     @Override
@@ -25,7 +28,7 @@ public class AddressImpl implements Address{
 
     @Override
     public void setStreetAddress(String streetAddress) {
-        this.street=streetAddress;
+        this.street = streetAddress;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class AddressImpl implements Address{
 
     @Override
     public void setCity(String city) {
-        this.city=city;
+        this.city = city;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class AddressImpl implements Address{
 
     @Override
     public void setState(String state) {
-        this.state=state;
+        this.state = state;
     }
 
     @Override
@@ -55,11 +58,12 @@ public class AddressImpl implements Address{
 
     @Override
     public void setZipCode(String zip) {
-        this.zipCode=zip;
+        this.zipCode = zip;
     }
+
     @Override
-    public String toString(){
-        return String.format("%s %s %s %s", street,city,state,zipCode);
+    public String toString() {
+        return String.format("%s %s %s %s", street, city, state, zipCode);
     }
-    
+
 }

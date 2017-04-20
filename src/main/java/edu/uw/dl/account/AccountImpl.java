@@ -22,7 +22,7 @@ public final class AccountImpl implements Account {
     private static final long serialVersionUID = 1L;
     String accountName;
     byte[] passwordHash;
-    int balance = 100000;
+    int balance;
     private String fullName;
     private Address address;
     private String phone;
@@ -31,20 +31,25 @@ public final class AccountImpl implements Account {
     private transient AccountManager accountManager;
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(AccountImpl.class);
 
+    /**
+     * No argument constructor.
+     */
     public AccountImpl() {
 
     }
 
     //check balance here with constructor
-    public AccountImpl(final String acctName, final byte[] passwordHash, final int balance) throws AccountException {
+    public AccountImpl(final String accountName, final byte[] passwordHash, final int balance) throws AccountException {
         if (balance < 100000) {
             final String msg = String.format("Account cannot be created since balance= %s", balance);
             LOG.warn(msg);
             throw new AccountException(msg);
+        } else {
+            setName(accountName);
+            setPasswordHash(passwordHash);
+            this.balance = balance;
         }
-        setName(acctName);
-        setPasswordHash(passwordHash);
-        this.balance = balance;
+
     }
 
     @Override
@@ -55,7 +60,7 @@ public final class AccountImpl implements Account {
     @Override
     public void setName(String acctName) throws AccountException {
         if (acctName == null || acctName.length() < 8) {
-            String msg = String.format("Account name is not acceptable %s", acctName);
+            String msg = String.format("Account name=%s is not acceptable ", acctName);
             LOG.warn(msg);
             throw new AccountException(msg);
         }
@@ -69,12 +74,8 @@ public final class AccountImpl implements Account {
      */
     @Override
     public byte[] getPasswordHash() {
-        byte[] password = null;
-        if (passwordHash != null) {
-            password = new byte[passwordHash.length];
-            System.arraycopy(passwordHash, 0, password, 0, passwordHash.length);
-        }
-        return password;
+
+        return passwordHash;
     }
 
     @Override
@@ -95,6 +96,7 @@ public final class AccountImpl implements Account {
 
     @Override
     public void setBalance(int balance) {
+
         this.balance = balance;
     }
 

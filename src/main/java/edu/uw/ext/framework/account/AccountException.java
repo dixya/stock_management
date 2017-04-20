@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package edu.uw.ext.framework.account;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Exception to indicate that something went wrong with an Account operation. 
@@ -13,14 +16,15 @@ package edu.uw.ext.framework.account;
 public class AccountException extends Exception{
     
     private static final long serialVersionUID = 1L;
+        static final Logger LOG=LoggerFactory.getLogger("AccountException.class");
+
     /**
      * Constructor.
 
-     * @param msg
-     * @param cause 
+     * @param msg 
      */
     public AccountException(String msg){
-        System.out.println("AccountException occured: "+msg );
+        LOG.info("AccountException occured.. " );
     }
     
 }
