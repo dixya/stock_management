@@ -23,5 +23,7 @@
   <!-- Bean providing RDBMS implementation of edu.uw.ext.framework.account.DaoFactory -->
   <!--<bean id="DaoFactory" class="edu.uw.dl.dao.DaoFactoryImpl"/>-->
   <bean id="DaoFactory" class="edu.uw.dl.dao.JsonDaoFactory"/>  
+   <!-- Bean implementing edu.uw.ext.framework.broker.BrokerFactory -->
+  <bean id="BrokerFactory" class="edu.uw.dl.broker.BrokerFactoryImpl"/>
 </beans>
 

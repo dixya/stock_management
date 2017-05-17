@@ -167,14 +167,14 @@ public final class AccountImpl implements Account {
     }
 
     /**
-     *
-     * @param order
+     * Reflects order
+     * @param order the value of order.
      * @param executionPrice the price at which the order was executed.
      */
     @Override
     public void reflectOrder(final Order order, int executionPrice) {
         try {
-            balance = order.valueOfOrder(executionPrice);
+            balance+= order.valueOfOrder(executionPrice);
             if (accountManager != null) {
                 accountManager.persist(this);
             } else {

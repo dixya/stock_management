@@ -30,14 +30,9 @@ import org.slf4j.LoggerFactory;
 public class JsonAccountDao implements AccountDao {
 
     /* The name of the file holding the account data */
-    private static final String ACCOUNT_FILE = "Account.json";
-    /* The name of the file holding the address data */
+//    private static final String ACCOUNT_FILE = "%s.json";
 
-    private static final String ADDRESS_FILE = "Address.json";
-    /* The name of the file holding the credit card data */
-
-    private static final String CREDITCARD_FILE = "Creditcard.json";
-    ObjectMapper mapper;
+    private final ObjectMapper mapper;
     /**
      * logger for this class
      */
@@ -47,6 +42,9 @@ public class JsonAccountDao implements AccountDao {
      */
     private final File accountsDir = new File("target", "accounts");
 
+    /**
+     * Constructor
+     */
     public JsonAccountDao() {
         //map interfaces to implementation classes
         SimpleModule module = new SimpleModule();
@@ -60,6 +58,11 @@ public class JsonAccountDao implements AccountDao {
 
     }
 
+    /**
+     * Reads the account with the specific account name.
+     * @param accountName the name of the account.
+     * @return account.
+     */
     @Override
     public Account getAccount(String accountName) {
         Account account = null;
@@ -67,33 +70,34 @@ public class JsonAccountDao implements AccountDao {
         final File accountDir = new File(accountsDir, accountName);
         if (accountDir.exists() && accountDir.isDirectory()) {
             try {
-                final File inFile = new File(accountDir, ACCOUNT_FILE);
+                final File inFile = new File(accountDir, accountName+".json");
                 // Write it out
                 account = mapper.readValue(inFile, Account.class);
             } catch (IOException e) {
                 LOG.warn("unable to access or read account data" + account);
             }
 
-
         }
         return account;
     }
 
+    /**
+     * Sets the account
+     * @param account the type of account.
+     * @throws AccountException if any error occurs in account.
+     */
     @Override
     public void setAccount(Account account) throws AccountException {
-        FileOutputStream out = null;
         try {
             final File accountDir = new File(accountsDir, account.getName());
-            final Address address = account.getAddress();
-            final CreditCard card = account.getCreditCard();
-            //deleteFile(accountDir);
+
             if (!accountDir.exists()) {
                 final boolean success = accountDir.mkdirs();
                 if (!success) {
                     throw new AccountException(String.format("Unable to create account directory,%s", accountsDir));
                 }
             }
-            File outFile = new File(accountDir, ACCOUNT_FILE);
+            File outFile = new File(accountDir, account.getName()+".json");
             if (outFile.exists()) {
                 //delete
                 boolean deleted = outFile.delete();
@@ -102,51 +106,57 @@ public class JsonAccountDao implements AccountDao {
                 }
             }
             mapper.writerWithDefaultPrettyPrinter().writeValue(outFile, account);
-            // mapper.writeValue(outFile, account);
-
 
         } catch (final IOException ex) {
             throw new AccountException("Unable to store account" + ex);
-        } finally {
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    LOG.warn("Attempt to close stream failed", e);
-                }
-            }
-        }
+        } 
     }
 
+    /**
+     * Deletes the account.
+     * @param accountName the name of the account.
+     * @throws AccountException if any error occurs in account.
+     */
     @Override
     public void deleteAccount(String accountName) throws AccountException {
         deleteFile(new File(accountsDir, accountName));
 
     }
 
+    /**
+     * Resets the account.
+     * @throws AccountException if any error occurs in account.
+     */
     @Override
     public void reset() throws AccountException {
         deleteFile(accountsDir);
 
     }
 
+    /**
+     * Closes the account if open.
+     * @throws AccountException if any error occurs in account.
+     */
     @Override
     public void close() throws AccountException {
     }
 
+    /**
+     * Deletes the file.
+     * @param file the name of the file.
+     */
     private void deleteFile(File file) {
-        if (accountsDir.exists()) {
-            if (accountsDir.isDirectory()) {
-                final File[] files = accountsDir.listFiles();
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                final File[] files = file.listFiles();
                 for (File currFile : files) {
                     deleteFile(currFile);
                 }
             }
-            if (!accountsDir.delete()) {
-                LOG.warn(String.format("file deletion failed,%s", accountsDir.getAbsolutePath()));
-            }
-            // accountsDir.delete();
 
+            if (!file.delete()) {
+                LOG.warn(String.format("File deletion failed, %s", file.getAbsolutePath()));
+           }
         }
     }
 

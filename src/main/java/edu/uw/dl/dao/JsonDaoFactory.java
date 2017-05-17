@@ -7,16 +7,18 @@ package edu.uw.dl.dao;
 
 import edu.uw.ext.framework.dao.AccountDao;
 import edu.uw.ext.framework.dao.DaoFactory;
-import edu.uw.ext.framework.dao.DaoFactoryException;
 
 /**
  *
  * @author dixya
  */
 public class JsonDaoFactory implements DaoFactory{
-
+/**
+ * Initializes JsonAccountDao.
+ * @return an instance of AccountDao
+ */
     @Override
-    public AccountDao getAccountDao() throws DaoFactoryException {
+    public AccountDao getAccountDao() {
         return new JsonAccountDao();
     
 }
