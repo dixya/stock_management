@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public class BrokerImpl implements Broker, ExchangeListener {
 
     private final String name;
-    private final StockExchange stockExchange;
+    public final StockExchange stockExchange;
     private final AccountManager accountManager;
     //private final MarketOrder marketOrders;
     private static final Logger LOG
@@ -43,11 +43,11 @@ public class BrokerImpl implements Broker, ExchangeListener {
     /**
      * Set of order manager used by broker
      */
-    private HashMap<String, OrderManager> orderManagerMap;
+    public HashMap<String, OrderManager> orderManagerMap;
     /**
      * market order queue
      */
-    private final OrderQueue<Boolean, Order> marketOrders;
+    protected  OrderQueue<Boolean, Order> marketOrders;
 
     /**
      * Constructor
@@ -175,7 +175,7 @@ public class BrokerImpl implements Broker, ExchangeListener {
      * Fetch the stock list from the exchange and initialize an order manager
      * for each stock. Only to be used during construction.
      */
-    private void initializeOrderManagers() {
+    protected void initializeOrderManagers() {
         orderManagerMap = new HashMap<>();
         final Consumer<StopBuyOrder> moveBuy2MarketProc = (StopBuyOrder order) -> marketOrders.enqueue(order);
         final Consumer<StopSellOrder> moveSell2MarketProc = (StopSellOrder order) -> marketOrders.enqueue(order);
