@@ -25,6 +25,13 @@
   <bean id="DaoFactory" class="edu.uw.dl.dao.JsonDaoFactory"/>  
    <!-- Bean implementing edu.uw.ext.framework.broker.BrokerFactory -->
   <bean id="BrokerFactory" class="edu.uw.dl.BrokerWithThread.ThreadedBrokerFactory"/>
+  
+  <!-- Bean implementing ...framework.exchange.NetworkExchangeAdapterFactory -->
+  <bean id="NetworkExchangeAdapterFactory" class="edu.uw.dl.exchange.ExchangeNetworkAdapterFactory"/>
+
+  <!-- Bean implementing ...framework.exchange.NetworkExchangeProxyFactory -->
+  <bean id="NetworkExchangeProxyFactory" class="edu.uw.dl.exchange.ExchangeNetworkProxyFactory"/>
+
 
 </beans>
 

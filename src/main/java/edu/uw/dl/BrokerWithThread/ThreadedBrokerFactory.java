@@ -14,11 +14,11 @@ import edu.uw.ext.framework.exchange.StockExchange;
  *
  * @author dixya
  */
-public class ThreadedBrokerFactory implements BrokerFactory{
+public class ThreadedBrokerFactory implements BrokerFactory {
 
     @Override
     public Broker newBroker(String name, AccountManager am, StockExchange se) {
-        return new ThreadedBroker(name, se,am);
+        return new ThreadedBroker(name, se, am);
     }
-    
+
 }
