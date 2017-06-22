@@ -56,7 +56,7 @@ public final class CommandHandler
      * Constructor.
      *
      * @param sock the socket for communication with the client
-     * @param realExchange the "real" exchange to dispatch commands to.
+     * @param realExchange the real exchange to dispatch commands to.
      */
     protected CommandHandler(Socket sock, StockExchange realExchange) {
         this.socket = sock;
@@ -91,20 +91,20 @@ public final class CommandHandler
 
             //Dispatch command
             if (LOG.isInfoEnabled()) {
-                LOG.info(String.format("Processing command :%s", cmd));
+                LOG.info(String.format("Processing command : %s", cmd));
             }
             switch (cmd) {
                 case GET_STATE_CMD:
-                    doGetState(printWriter);
+                    getState(printWriter);
                     break;
                 case GET_TICKERS_CMD:
-                    doGetTickers(printWriter);
+                    getTickers(printWriter);
                     break;
                 case GET_QUOTE_CMD:
-                    doGetQuote(elements, printWriter);
+                    getQuote(elements, printWriter);
                     break;
                 case EXECUTE_TRADE_CMD:
-                    doExecuteTrade(elements, printWriter);
+                    executeTrade(elements, printWriter);
                     break;
                 default:
                     LOG.error(String.format("Unrecognized command :%s", cmd));
@@ -118,32 +118,32 @@ public final class CommandHandler
                     socket.close();
                     LOG.info("Socket has been closed");
                 }
-            } catch (final IOException ioex) {
-                LOG.info("Error closing socket", ioex);
+            } catch (final IOException ex) {
+                LOG.info("Error closing socket", ex);
             }
         }
 
     }
 
-    private void doGetState(final PrintWriter printWriter) {
+    private void getState(final PrintWriter printWriter) {
         final String response = realExchange.isOpen() ? ProtocolConstants.OPEN_STATE : ProtocolConstants.CLOSED_STATE;
         printWriter.println(response);
     }
 
-    private void doGetTickers(final PrintWriter printWriter) {
+    private void getTickers(final PrintWriter printWriter) {
         final String[] tickers = realExchange.getTickers();
         final String tickersStr = String.join(ELEMENT_DELIMITER, tickers);
         printWriter.println(tickersStr);
     }
 
-    private void doGetQuote(final String[] elements, final PrintWriter printWriter) {
+    private void getQuote(final String[] elements, final PrintWriter printWriter) {
         String ticker = elements[QUOTE_CMD_TICKER_ELEMENT];
         final StockQuote quote = realExchange.getQuote(ticker);
         int price = (quote == null) ? INVALID_STOCK : quote.getPrice();
         printWriter.println(price);
     }
 
-    private void doExecuteTrade(final String[] elements, final PrintWriter printWriter) {
+    private void executeTrade(final String[] elements, final PrintWriter printWriter) {
         if (realExchange.isOpen()) {
             final String orderType = elements[EXECUTE_TRADE_CMD_TYPE_ELEMENT];
             final String acctID = elements[EXECUTE_TRADE_CMD_ACCOUNT_ELEMENT];

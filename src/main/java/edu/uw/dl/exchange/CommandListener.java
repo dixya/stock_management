@@ -35,8 +35,8 @@ public final class CommandListener implements Runnable {
      * Constructor.
      *
      * @param commandPort the port to listen for connections on
-     * @param realExchange the "real" exchange to be used to execute the
-     * commands
+     * @param realExchange the "real" exchange to be used to execute the commands.
+     * 
      */
     public CommandListener(int commandPort, StockExchange realExchange) {
         this.commandPort = commandPort;
@@ -60,7 +60,7 @@ public final class CommandListener implements Runnable {
                 try {
                     sock = servSocket.accept();
                     if (LOG.isInfoEnabled()) {
-                        LOG.info("Accepted connection at port %d", commandPort);
+                        LOG.info("Accepted connection at port "+ commandPort);
                     }
                 } catch (final SocketException ex) {
                     if (servSocket != null && !servSocket.isClosed()) {

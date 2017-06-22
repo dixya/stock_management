@@ -59,7 +59,7 @@ public class ExchangeNetworkAdapter implements ExchangeAdapter{
             eventSocket=new MulticastSocket();
             eventSocket.setTimeToLive(5);
             if(LOG.isInfoEnabled()){
-                LOG.info("Multicasting events to :" +multicastIP+"i"+multicastIP);
+                LOG.info("Multicasting events to :" +multicastIP);
             }
         
     }catch(IOException e){
@@ -127,7 +127,7 @@ public class ExchangeNetworkAdapter implements ExchangeAdapter{
         try{
             sendMulticastEvent(msg);
         } catch(final IOException ex){
-            LOG.error("Error in multicating price change",ex);
+            LOG.error("Error in multicasting price change",ex);
         }
     }
 

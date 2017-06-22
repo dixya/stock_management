@@ -53,7 +53,7 @@ public class NetEventProcessor implements Runnable{
             final InetAddress eventGroup=InetAddress.getByName(eventIpAddress);
             eventSocket.joinGroup(eventGroup);
             if(LOG.isInfoEnabled()){
-                LOG.info("Receiving events from eventipadress="+eventIpAddress);
+                LOG.info("Receiving events from eventipadress= "+eventIpAddress);
             }
             final byte[] buf=new byte[BUFFER_SIZE];
             final DatagramPacket packet=new DatagramPacket(buf, buf.length);
